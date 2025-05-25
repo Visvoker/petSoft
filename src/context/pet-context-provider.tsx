@@ -1,5 +1,6 @@
 "use client";
 
+import { addPet } from "@/actions/actions";
 import { Pet } from "@/lib/type";
 import { createContext, useState } from "react";
 
@@ -35,13 +36,15 @@ export default function PetContextProvider({
 
   // event handlers / actions
   const handleAddPet = (newPet: Omit<Pet, "id">) => {
-    setPets((prev) => [
-      ...prev,
-      {
-        ...newPet,
-        id: Date.now().toString(),
-      },
-    ]);
+    // setPets((prev) => [
+    //   ...prev,
+    //   {
+    //     ...newPet,
+    //     id: Date.now().toString(),
+    //   },
+    // ]);
+
+    addPet(newPet);
   };
 
   const handleEditPet = (petId: string, newPetData: Omit<Pet, "id">) => {
