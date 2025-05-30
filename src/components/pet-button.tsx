@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "./ui/dialog";
 import PetForm from "./pet-form";
 import { flushSync } from "react-dom";
@@ -53,6 +54,7 @@ export default function PetButton({
             <DialogTitle>
               {actionType === "add" ? "Add a new pet" : "Edit pet"}
             </DialogTitle>
+            <DialogDescription>Fixed the warning</DialogDescription>
           </DialogHeader>
 
           <PetForm
