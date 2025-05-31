@@ -1,5 +1,6 @@
 "use client";
 
+import { literal, z } from "zod";
 import React from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -7,6 +8,7 @@ import { Textarea } from "./ui/textarea";
 import { usePetContext } from "@/lib/hook";
 import PetFormBtn from "./pet-form-btn";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type PetFormProps = {
   actionType: "add" | "edit";
@@ -21,6 +23,21 @@ type TPetForm = {
   notes: string;
 };
 
+const petFormSchema = z.object({
+  name: z.string().trim().min(1, { message: "Name is required" }).max(100),
+  ownerName: z
+    .string()
+    .trim()
+    .min(1, { message: "Owner name is required" })
+    .max(100),
+  imageUrl: z.union([
+    z.literal(""),
+    z.string().trim().url({ message: "Image url must be a valid url" }),
+  ]),
+  age: z.coerce.number().int().positive().max(99999),
+  notes: z.union([z.literal(""), z.string().trim().max(1000)]),
+});
+
 export default function PetForm({
   actionType,
   onFormSubmission,
@@ -31,7 +48,9 @@ export default function PetForm({
     register,
     formState: { isSubmitting, errors },
     trigger,
-  } = useForm<TPetForm>();
+  } = useForm<TPetForm>({
+    resolver: zodResolver(petFormSchema),
+  });
 
   return (
     <form
@@ -61,31 +80,13 @@ export default function PetForm({
       <div className="space-y-3">
         <div className="space-y-1">
           <Label htmlFor="name">name</Label>
-          <Input
-            id="name"
-            {...register("name", {
-              required: "Name is require",
-              minLength: {
-                value: 3,
-                message: "Name must be at least 3 characters long",
-              },
-            })}
-          />
+          <Input id="name" {...register("name")} />
           {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </div>
 
         <div className="space-y-1">
           <Label htmlFor="ownerName">Owner Name</Label>
-          <Input
-            id="ownerName"
-            {...register("ownerName", {
-              required: "ownerName is require",
-              maxLength: {
-                value: 20,
-                message: "OwnerName must be less than 20 characters long",
-              },
-            })}
-          />
+          <Input id="ownerName" {...register("ownerName")} />
           {errors.ownerName && (
             <p className="text-red-500">{errors.ownerName.message}</p>
           )}
