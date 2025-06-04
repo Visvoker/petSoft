@@ -10,7 +10,7 @@ import { revalidatePath } from "next/cache";
 export async function logIn(formData: FormData) {
   const authData = Object.fromEntries(formData.entries());
 
-  await signIn();
+  await signIn("credentials", authData);
 }
 
 // --- pet actions ---
