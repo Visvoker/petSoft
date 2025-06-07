@@ -54,6 +54,10 @@ const config = {
         return Response.redirect(new URL("/app/dashboard", request.nextUrl));
       }
 
+      if (!isLoggedIn && !isTryingToAccessApp) {
+        return true;
+      }
+
       return false;
     },
   },
