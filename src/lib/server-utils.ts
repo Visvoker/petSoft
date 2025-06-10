@@ -5,7 +5,7 @@ export async function checkAuth() {
   const section = await auth();
 
   if (!section?.user) {
-    redirect("/login");
+  redirect("/login");
   }
 
   return section;
