@@ -27,12 +27,12 @@ export async function logOut() {
   await signOut({ redirectTo: "/" });
 }
 
-export async function signUp(formData: unknown) {
+export async function signUp(prevState: unknown, formData: unknown) {
   await sleep(1000);
 
   // check formData is a FormData type
   if (!(formData instanceof FormData)) {
-    throw new Error("invalid form data.");
+    return { message: "Invalid form data" };
   }
 
   // convert formdata into a plain object
@@ -41,7 +41,7 @@ export async function signUp(formData: unknown) {
   // validation
   const validateFormData = authSchema.safeParse(formDataEntries);
   if (!validateFormData.success) {
-    throw new Error("Invalid form data");
+    return { message: "Invalid form data" };
   }
 
   const { email, password } = validateFormData.data;
@@ -58,10 +58,10 @@ export async function signUp(formData: unknown) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        throw new Error("User already exists");
+        return { message: "User already exists" };
       }
     }
-    throw new Error("Could not create user.");
+    return { message: "Could not create user." };
   }
 
   await signIn("credentials", formData);
