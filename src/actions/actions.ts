@@ -10,23 +10,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 // --- user actions ---
-export async function logIn(formData: FormData) {
-  // Check is formData is a FormData type
+export async function logIn(formData: unknown) {
   if (!(formData instanceof FormData)) {
     throw new Error("Invalid form data");
   }
 
-  // convert formData to an object
-  const formDataObject = Object.fromEntries(formData.entries());
-
-  // validate the object
-  const validateFormDataObject = authSchema.safeParse(formDataObject);
-
-  if (!validateFormDataObject.success) {
-    throw new Error("Invalid form data");
-  }
-
-  await signIn("credentials", validateFormDataObject.data);
+  await signIn("credentials", formData);
 
   redirect("app/dashboard");
 }
