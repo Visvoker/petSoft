@@ -12,6 +12,8 @@ import { redirect } from "next/navigation";
 
 // --- user actions ---
 export async function logIn(formData: unknown) {
+  await sleep(1000);
+
   if (!(formData instanceof FormData)) {
     throw new Error("Invalid form data");
   }
@@ -26,6 +28,8 @@ export async function logOut() {
 }
 
 export async function signUp(formData: unknown) {
+  await sleep(1000);
+
   // check formData is a FormData type
   if (!(formData instanceof FormData)) {
     throw new Error("invalid form data.");
