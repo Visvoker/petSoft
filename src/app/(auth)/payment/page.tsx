@@ -5,7 +5,11 @@ import H1 from "@/components/h1";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 
-export default function PaymentPage({ searchParams }) {
+export default function PaymentPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const [isPending, startTransition] = useTransition();
   return (
     <main className="flex flex-col items-center space-y-10">
