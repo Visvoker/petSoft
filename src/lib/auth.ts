@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "./server-utils";
 import { authSchema } from "../lib/validation";
+import { sleep } from "./utils";
 
 const config = {
   pages: {
@@ -85,13 +86,14 @@ const config = {
       }
 
       if (trigger === "update") {
+        await sleep(1000);
         // on every request
         const userFromDb = await getUserByEmail(token.email);
         if (userFromDb) {
           token.hasAccess = userFromDb.hasAccess;
         }
       }
-      
+
       return token;
     },
     session: ({ session, token }) => {
