@@ -1,8 +1,19 @@
+import prisma from "@/lib/db";
+
 export async function POST(request: Request) {
-  const body = await request.text();
-  console.log(body);
+  const data = await request.json();
+
+  // verify webhook from Stripe
 
   // fulfill order
+  await prisma.user.update({
+    where: {
+      email: data.data.object.customer_email,
+    },
+    data: {
+      hasAccess: true,
+    },
+  });
 
   // return 200 ok
   return Response.json(null, { status: 200 });
