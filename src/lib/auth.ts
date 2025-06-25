@@ -56,6 +56,15 @@ const config = {
         return Response.redirect(new URL("/payment", request.nextUrl));
       }
 
+      if (
+        isLoggedIn &&
+        (request.nextUrl.pathname.includes("/login") ||
+          request.nextUrl.pathname.includes("/signup")) &&
+        auth?.user.hasAccess
+      ) {
+        return Response.redirect(new URL("/app/dashboard", request.nextUrl));
+      }
+
       if (isLoggedIn && isTryingToAccessApp && auth?.user.hasAccess) {
         return true;
       }
