@@ -3,7 +3,6 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "./server-utils";
 import { authSchema } from "../lib/validation";
-import { sleep } from "./utils";
 
 const config = {
   pages: {
@@ -118,6 +117,7 @@ const config = {
       return session;
     },
   },
+  secret: process.env.AUTH_SECRET,
 } satisfies NextAuthConfig;
 
 export const {
