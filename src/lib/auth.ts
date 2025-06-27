@@ -45,14 +45,7 @@ const config = {
     authorized: ({ auth, request }) => {
       // runs on every request with middleware
       const isLoggedIn = !!auth?.user;
-      const isTryingToAccessApp = request.nextUrl.pathname.includes("/app");
-
-      console.log(
-        isLoggedIn,
-        isTryingToAccessApp,
-        auth?.user.hasAccess,
-        request.nextUrl.pathname
-      );
+      const isTryingToAccessApp = request.nextUrl.pathname.includes("/app")
 
       if (!isLoggedIn && isTryingToAccessApp) {
         return false;
@@ -117,7 +110,6 @@ const config = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
 } satisfies NextAuthConfig;
 
 export const {
